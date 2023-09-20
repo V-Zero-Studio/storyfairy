@@ -1,0 +1,66 @@
+# Test your FastAPI endpoints
+
+POST http://127.0.0.1:8000/characters/
+Content-Type: application/json
+
+###
+
+POST http://127.0.0.1:8000/scenes/
+Content-Type: application/json
+
+{
+  "characters": [
+    "fairy",
+    "witch",
+    "wizard"
+  ]
+}
+
+###
+
+POST http://127.0.0.1:8000/slide/
+Content-Type: application/json
+
+{
+  "story": {
+    "title": "Superhero, Villain, and Civilian's Thrilling Battle in the City",
+    "characters": [
+      "Superhero",
+      "Villain",
+      "Civilian"
+    ],
+    "scene": "In a bustling city",
+    "latent": "heroism",
+    "slides": [
+      {
+        "text": "In a bustling city, the superhero heard cries for help and rushed to the scene.",
+        "image": "https://i.ibb.co/GkgvbCj/d1912ff8c752.png",
+        "keywords": []
+      },
+      {
+        "text": "The villain was causing chaos, and the civilian watched in fear.",
+        "image": "https://i.ibb.co/wpb77qT/c136ec528a02.png",
+        "keywords": []
+      }
+    ]
+  },
+  "new_keywords": [
+    "butterfly",
+    "window"
+  ]
+}
+
+###
+
+GET http://127.0.0.1:8000/filter/
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:8000/save/
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:8000/descriptions/
+Accept: application/json

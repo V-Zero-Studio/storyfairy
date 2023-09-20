@@ -1,0 +1,145 @@
+<html lang="en-US">
+<head>
+    <title>StoryFairy</title>
+    {#    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">#}
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+</head>
+
+<body>
+<div class="container-fluid p-5">
+    <h1>StoryFairy Performance Dashboard</h1>
+
+    <div class="row align-items-start g-5">
+        <div class="col-12 col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Response Time</h5>
+                    <canvas id="all-chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-5 col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Keyword Usage</h5>
+
+                    <canvas id="keyword-usage-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{#    <script src="{{ url_for('static', path='/chart.js') }}"></script>#}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+<script>
+    {#    "get_characters", "get_scenes", "get_keywords", "get_slide" #}
+
+    log_data = {{ log_data|tojson }};
+    keyword_usage_data = {{ keyword_usage_data|tojson }};
+
+    const {
+        get_characters,
+        get_scenes,
+        get_keywords,
+        get_slide
+    } = log_data;
+
+    new Chart(
+        document.getElementById('all-chart'),
+        {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: "Get Characters",
+                        data: get_characters.map(item => ({
+                            x: new Date(item.time * 1000),
+                            y: item.response_time
+                        })),
+                    },
+                    {
+                        label: "Get Scenes",
+                        data: get_scenes.map(item => ({
+                            x: new Date(item.time * 1000),
+                            y: item.response_time
+                        })),
+                    },
+                    {
+                        label: "Get Slide",
+                        data: get_slide.map(item => ({
+                            x: new Date(item.time * 1000),
+                            y: item.response_time
+                        })),
+                    },
+                ]
+            },
+            options: {
+                tension: 0.1,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day',
+                            displayFormats: {
+                                hour: 'MMM dd'
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Response Time (s)'
+                        }
+                    }
+                },
+            }
+
+        }
+    )
+
+    // pie chart
+    new Chart(
+        document.getElementById('keyword-usage-chart'),
+        {
+            type: 'pie',
+            data: {
+                labels: Object.keys(keyword_usage_data),
+                datasets: [
+                    {
+                        label: "Count",
+                        data: Object.values(keyword_usage_data),
+                    },
+                ]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        }
+    )
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+#charts-container {
+    margin: 4rem;
+}
+
+#ku-container {
+    max-width: 300px;
+    margin: 4rem;
+}
+
+#ku-container canvas {
+    width: 100% !important;
+    height: auto !important;
+}

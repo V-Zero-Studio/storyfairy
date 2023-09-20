@@ -1,0 +1,8 @@
+# ios app
+
+# fastapi app
+
+**/__pycache__/
+
+# Mac OS files
+**/.DS_Store
