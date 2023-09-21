@@ -21,5 +21,6 @@ COPY . /app
 
 ENV OPENAI_API_KEY="sk-xxxxxx"
 ENV IMGBB_KEY="xxxxx"
+ENV MONGODB_URI="mongodb:/xxxx"
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8902"]
